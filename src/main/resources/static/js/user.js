@@ -24,7 +24,7 @@ let index = {
         $.ajax({
             // 회원가입 수행 요청
             type:"POST",
-            url:"/blog/api/user",
+            url:"/auth/joinProc",
             data:JSON.stringify(data), // HTTP 바디 데이터 => MIME 타입 필요
             contentType:"application/json; charset=utf-8", // 바디데이터가 어떤 타입인지
             dataType:"json" // 요청에 대한 응답이 왔을 때 기본적으로 모든 것이 문자열인데 생긴게 json이라면 자바스크립트로 변경을 해준다.
@@ -32,11 +32,12 @@ let index = {
             alert("회원가입이 완료되었습니다.");
             // alert(resp)
             console.log(resp);
-            location.href="/blog";
+            location.href="/";
         }).fail(function(error) { // 실패 시 수행
             alert(JSON.stringify(error));
         });
     }
+
 
 }
 index.init();

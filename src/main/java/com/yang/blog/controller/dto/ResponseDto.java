@@ -1,4 +1,4 @@
-package com.yang.app.blog.controller.dto;
+package com.yang.blog.controller.dto;
 
 
 import lombok.AllArgsConstructor;

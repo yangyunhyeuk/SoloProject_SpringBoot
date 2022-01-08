@@ -1,4 +1,4 @@
-package com.yang.app.blog.model;
+package com.yang.blog.model;
 
 public enum RoleType {
     USER, ADMIN

@@ -1,4 +1,4 @@
-package com.yang.app.blog;
+package com.yang.blog;
 
 import org.springframework.web.bind.annotation.*;
 

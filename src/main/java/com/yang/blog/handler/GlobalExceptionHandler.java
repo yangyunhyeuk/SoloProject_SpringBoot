@@ -1,6 +1,6 @@
-package com.yang.app.blog.handler;
+package com.yang.blog.handler;
 
-import com.yang.app.blog.controller.dto.ResponseDto;
+import com.yang.blog.controller.dto.ResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

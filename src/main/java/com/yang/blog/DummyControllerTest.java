@@ -1,8 +1,8 @@
-package com.yang.app.blog;
+package com.yang.blog;
 
-import com.yang.app.blog.model.RoleType;
-import com.yang.app.blog.model.User;
-import com.yang.app.blog.repository.UserRepository;
+import com.yang.blog.model.RoleType;
+import com.yang.blog.model.User;
+import com.yang.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
