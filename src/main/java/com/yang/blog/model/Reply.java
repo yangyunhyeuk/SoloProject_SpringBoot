@@ -1,4 +1,4 @@
-package com.yang.app.blog.model;
+package com.yang.blog.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
