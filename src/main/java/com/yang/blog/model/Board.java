@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -29,7 +28,6 @@ public class Board {
     @Lob // 대용량 데이터
     private String content; // 섬머노트 라이브러리 사용할 예정, <html>태그가 섞여 디자인된다.
 
-    @ColumnDefault("0")
     private int count;
 
     @ManyToOne(fetch = FetchType.EAGER) // Board : Many, User = One

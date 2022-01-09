@@ -2,11 +2,9 @@ package com.yang.blog.controller.api;
 
 import com.yang.blog.controller.dto.ResponseDto;
 import com.yang.blog.controller.service.UserService;
-import com.yang.blog.model.RoleType;
 import com.yang.blog.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,14 +16,14 @@ public class UserApiController {
     private UserService userService;
 
     @PostMapping("/auth/joinProc")
-    public ResponseDto<Integer> save(@RequestBody User user){
+    public ResponseDto<Integer> save(@RequestBody User user) {
         System.out.println("UserApiController, save 호출됨");
         userService.회원가입(user);
-        return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 
 
-
+// 로그인 요청은 스프링 시큐리티 라이브러리가 가로채게 할 예정
 
 /*
 다음은 전통적인 로그인 방식 (현 프로젝트에서 사용 x)
@@ -41,7 +39,6 @@ public class UserApiController {
 
     }
     */
-
 
 
 }
