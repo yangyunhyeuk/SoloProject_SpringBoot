@@ -29,6 +29,15 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User 회원찾기(String username) {
+        User user = userRepository.findByUsername(username).orElseGet(() -> {
+            // == 회원이 없는 경우 빈 객체를 반환한다
+            return new User();
+        });
+        return user;
+    }
+
+
 /*
     @Transactional(readOnly = true) // SELECT 할 때 트랜잭션 시작, 해당 서비스 종료 시 트랜잭션 종료 (정합성 유지)
     public User 로그인(User user) {
