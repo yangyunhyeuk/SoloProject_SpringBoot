@@ -3,41 +3,49 @@ package com.yang.blog.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yang.blog.controller.service.UserService;
 import com.yang.blog.model.KakaoProfile;
 import com.yang.blog.model.OAuthToken;
+import com.yang.blog.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.UUID;
+// 인증이 안된 사용자들이 출입할 수 있는 경로를 /auth/** 허용
+// 그냥 주소가 / 이면 index.jsp 허용
+// static이하에 있는 /js/**, /css/**, /image/**
 
-// 인증이 안된 사용자들이 출입할 수 있는 경로(시큐리티)
-// 1. "/auth/**"
-// 2. 그냥 주소가 /이면 index.jsp
-// 3. static 이하의 /js, /css, /image
 @Controller
 public class UserController {
 
     @Value("${yang.key}")
     private String yangKey;
-    // 카카오 로그인을 통해 가입한 회원들의 비밀번호를 위의 값으로 대체
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/auth/joinForm")
     public String joinForm() {
-
         return "user/joinForm";
     }
 
     @GetMapping("/auth/loginForm")
     public String loginForm() {
-
         return "user/loginForm";
     }
 
@@ -124,16 +132,33 @@ public class UserController {
         System.out.println("블로그서버 유저네임 : " + kakaoProfile.getKakao_account().getEmail() + "_" + kakaoProfile.getId());
         System.out.println("블로그서버 이메일 : " + kakaoProfile.getKakao_account().getEmail());
         // UUID란 -> 중복되지 않는 어떤 특정 값을 만들어내는 알고리즘
-        //System.out.println("블로그서버 패스워드 : "+cosKey);
+        System.out.println("블로그서버 패스워드 : " + yangKey);
 
+        User kakaoUser = User.builder()
+                .username(kakaoProfile.getKakao_account().getEmail() + "_" + kakaoProfile.getId())
+                .password(yangKey)
+                .email(kakaoProfile.getKakao_account().getEmail())
+                .oauth("kakao")
+                .build();
 
-        // UUID garbagePassword = new UUID.randomUUID();
-        String garbagePassword = UUID.randomUUID().toString();
-        System.out.println("블로그 서버 비밀번호 : " + garbagePassword);
+        // 가입자 혹은 비가입자 체크 해서 처리
+        User originUser = userService.회원찾기(kakaoUser.getUsername());
 
+        if (originUser.getUsername() == null) {
+            System.out.println("기존 회원이 아니기에 자동 회원가입을 진행합니다");
+            userService.회원가입(kakaoUser);
+        }
 
-        return response2.getBody();
+        System.out.println("자동 로그인을 진행합니다.");
+        // 로그인 처리
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), yangKey));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return "redirect:/";
     }
 
-
+    @GetMapping("/user/updateForm")
+    public String updateForm() {
+        return "user/updateForm";
+    }
 }
