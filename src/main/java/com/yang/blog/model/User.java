@@ -25,7 +25,7 @@ public class User {
     @Column(nullable = false,length = 100,unique = true)
     private String username; // 유저의 ID
 
-    @Column(nullable = false,length = 100) // 후에 해쉬 전환 후 암호화
+    @Column(length = 100) // 후에 해쉬 전환 후 암호화
     private String password;
 
     @Column(nullable = false, length = 50)
