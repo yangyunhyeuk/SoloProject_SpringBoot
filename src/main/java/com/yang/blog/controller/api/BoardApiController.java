@@ -1,6 +1,7 @@
 package com.yang.blog.controller.api;
 
 import com.yang.blog.config.auth.PrincipalDetail;
+import com.yang.blog.controller.dto.ReplySaveRequestDto;
 import com.yang.blog.controller.dto.ResponseDto;
 import com.yang.blog.controller.service.BoardService;
 import com.yang.blog.model.Board;
@@ -33,6 +34,15 @@ public class BoardApiController {
     public ResponseDto<Integer> update(@PathVariable int id, @RequestBody Board board) {
         System.out.println("BoardApiController, update 호출됨");
         boardService.글수정하기(id, board);
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+    }
+
+    // 데이터를 받을 때 컨트롤러에서 dto를 만들어서 받는게 좋다.
+    @PostMapping("/api/board/{boardId}/reply")
+    public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
+        System.out.println("BoardApiController, replySaveRequestDto 호출됨");
+
+        boardService.댓글쓰기(replySaveRequestDto); // title, content만 들고 가면 안되기에 user의 정보까지 들고 이동해야 한다.
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
 }

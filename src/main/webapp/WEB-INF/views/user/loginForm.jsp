@@ -18,6 +18,7 @@
         </div>
 
         <button name="remember" class="btn btn-primary">Login</button>
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=2900764235a5dea0937ee6160b389c50&redirect_uri=http://localhost:8000/auth/kakao/callback&response_type=code "><img width="65px" height="38px" src="/image/kakao_login_button.png"></a>
     </form>
 
 

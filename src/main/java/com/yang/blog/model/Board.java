@@ -1,5 +1,6 @@
 package com.yang.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,7 +36,9 @@ public class Board {
     private User user; // DB는 오브젝트를 저장할 수 없다, 자바는 JPA를 사용 시 오브젝트를 저장할 수 있다.
 
     @OneToMany(mappedBy = "board", fetch = FetchType.EAGER) // mappedby : 연관관계의 주인이 아니다 == not FK == DB에 컬럼을 만들지 마시오
-    private List<Reply> reply; // 한 게시글에 여러 댓글
+    @JsonIgnoreProperties({"board","user"})
+    @OrderBy("id desc")
+    private List<Reply> replys; // 한 게시글에 여러 댓글
 
     @CreationTimestamp // 데이터 입력 시 자동 기입
     private Timestamp createDate;
