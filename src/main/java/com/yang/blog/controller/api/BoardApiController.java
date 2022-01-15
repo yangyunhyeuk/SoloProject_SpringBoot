@@ -45,4 +45,12 @@ public class BoardApiController {
         boardService.댓글쓰기(replySaveRequestDto); // title, content만 들고 가면 안되기에 user의 정보까지 들고 이동해야 한다.
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
+
+    @DeleteMapping("/api/board/{boardId}/reply/{replyId}")
+    public ResponseDto<Integer> replyDelete(@PathVariable int replyId) {
+        boardService.댓글삭제(replyId);
+
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
+    }
+
 }
